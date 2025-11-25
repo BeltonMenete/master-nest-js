@@ -3,39 +3,26 @@ import { Controller, Get, Param } from '@nestjs/common';
 type User = {
   id: number;
   name: string;
-  email: string;
 };
 
 const users: User[] = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-  },
-  {
-    id: 2,
-    name: 'Jane Doe',
-    email: 'jane.doe@example.com',
-  },
-  {
-    id: 3,
-    name: 'John Belton',
-    email: 'bymenete@gmail.com',
-  },
+  { id: 1, name: 'John Doe' },
+  { id: 2, name: 'Jane Doe' },
+  { id: 3, name: 'Belton Alberto' },
+  { id: 4, name: 'Maria Justine' },
 ];
 
-@Controller('users')
+@Controller()
 export class UsersController {
-  @Get('/')
+  @Get('/users')
   getUsers(): User[] {
     return users;
   }
 
-  @Get('/:id')
-  getUser(@Param('id') id: string): any {
-    if (parseInt(id) <= users.length) {
-      return users.find((user) => user.id === parseInt(id));
-    }
-    return { error: 'User not found' };
+  @Get('/user/:id')
+  getUser(@Param('id') id: number): User | { msg: string } | undefined {
+    if (!id) return { msg: 'Invalid id' };
+    if (users.length > id) return { msg: 'User not found' };
+    return users.find((user) => user.id === id);
   }
 }
