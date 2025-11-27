@@ -33,8 +33,6 @@ export class UsersController {
 
   @Post('/users')
   postUser(@Body() user: User) {
-    console.log('received user');
-    console.log(user);
     this.usersService.users.push(user);
     return user;
   }
