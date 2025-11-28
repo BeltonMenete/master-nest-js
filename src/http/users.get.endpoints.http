@@ -1,4 +1,7 @@
 GET http://localhost:3000
 
 ### Get a user
+GET http://localhost:3000/users/123/dadadada/daw
+
+### Get users
 GET http://localhost:3000/users
