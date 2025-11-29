@@ -7,6 +7,8 @@ import {
   Param,
   Query,
   Body,
+  Headers,
+  Ip,
 } from '@nestjs/common';
 
 @Controller()
@@ -16,19 +18,27 @@ export class UsersController {
   //   return ' You sent a get request to users endpoint with no params';
   // }
 
-  @Get('users{/*id}{/*txt}')
-  public getUser(@Param() params?: any, @Query() query?: any) {
-    return `you sent a get request to users endpoints: ${params.id} & ${params.txt} | with querie - ${query.role.toUpperCase()} ${query.limit} ${query.offset}`;
+  @Get('users{/*id}')
+  public getUser(
+    @Ip() ip?: any,
+    @Headers() headers?: any,
+    @Param('id') id?: any,
+    @Query('ishappy') isHappy?: boolean,
+  ) {
+    console.log(headers);
+    console.log(ip);
+    return {
+      Ip: ip,
+      id: parseInt(id[0]),
+      isHappy: Boolean(isHappy),
+    };
   }
 
   @Post('users')
-  public createUser(@Body() body?: any) {
-    let txt = ' You sent a patch request to this endpoint users: ';
-    console.log(body);
-    for (let key in body) {
-      txt += ` ${key} : ${body[key]} \n`;
-    }
-    return txt;
+  public createUser(@Body() allObj: any, @Body('email') body?: any) {
+    console.log('see it : ');
+    console.log(allObj);
+    return body;
   }
 
   @Patch('users')
