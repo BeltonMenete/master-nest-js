@@ -13,23 +13,11 @@ import {
 
 @Controller()
 export class UsersController {
-  // @Get('users')
-  // public getUsers() {
-  //   return ' You sent a get request to users endpoint with no params';
-  // }
-
   @Get('users{/*id}')
-  public getUser(
-    @Ip() ip?: any,
-    @Headers() headers?: any,
-    @Param('id') id?: any,
-    @Query('ishappy') isHappy?: boolean,
-  ) {
-    console.log(headers);
-    console.log(ip);
+  public getUser(@Param() param?: any, @Query('ishappy') isHappy?: boolean) {
+    console.log(typeof param);
+    console.log(typeof isHappy);
     return {
-      Ip: ip,
-      id: parseInt(id[0]),
       isHappy: Boolean(isHappy),
     };
   }
