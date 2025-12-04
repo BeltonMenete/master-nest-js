@@ -9,16 +9,27 @@ import {
   Body,
   Headers,
   Ip,
+  ParseIntPipe,
+  DefaultValuePipe,
 } from '@nestjs/common';
 
 @Controller()
 export class UsersController {
-  @Get('users{/*id}')
-  public getUser(@Param() param?: any, @Query('ishappy') isHappy?: boolean) {
-    console.log(typeof param);
-    console.log(typeof isHappy);
+  @Get('users/{:id}')
+  public getUser(
+    @Param('id', ParseIntPipe) id?: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
+  ) {
     return {
-      isHappy: Boolean(isHappy),
+      id,
+      limit,
+      page,
+      types: {
+        id: typeof id,
+        limit: typeof limit,
+        page: typeof page,
+      },
     };
   }
 
