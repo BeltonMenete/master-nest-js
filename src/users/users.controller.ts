@@ -36,9 +36,9 @@ export class UsersController {
   }
 
   @Post('users')
-  public createUser(@Body(new ValidationPipe()) newUser: CreateUserDto) {
+  public createUser(@Body() newUser: CreateUserDto) {
     console.log('see it : ');
-    console.log(newUser);
+    console.log(newUser instanceof CreateUserDto);
     return {
       message: 'User was created successfully!',
     };
