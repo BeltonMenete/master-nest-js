@@ -13,22 +13,23 @@ import {
   DefaultValuePipe,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateUserDto } from 'src/dto/create-user.dto';
+import { CreateUserDto } from 'src/users/dto/CreateUserDto';
+import { GetUserParamDto } from './dto/GetUserParamDto';
 
 @Controller()
 export class UsersController {
   @Get('users/{:id}')
   public getUser(
-    @Param('id', ParseIntPipe) id?: number,
+    @Param() getUserParamDto: GetUserParamDto,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
   ) {
+    console.log(getUserParamDto);
     return {
-      id,
+      getUserParamDto,
       limit,
       page,
       types: {
-        id: typeof id,
         limit: typeof limit,
         page: typeof page,
       },
