@@ -15,18 +15,21 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/CreateUserDto';
 import { GetUserParamDto } from './dto/GetUserParamDto';
+import { PaginationQueryDto } from './dto/PaginationQueryDto';
 
 @Controller()
 export class UsersController {
   @Get('users/{:id}')
   public getUser(
     @Param() getUserParamDto: GetUserParamDto,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
+    @Query() paginationQueryDto: PaginationQueryDto,
   ) {
     console.log(getUserParamDto);
+    console.log(paginationQueryDto);
+    const { id } = getUserParamDto;
+    const { limit, page } = paginationQueryDto;
     return {
-      getUserParamDto,
+      id,
       limit,
       page,
       types: {
@@ -45,13 +48,17 @@ export class UsersController {
     };
   }
 
-  @Patch('users')
-  public updateUser() {
-    return ' You sent a patch request to this endpoint users  ';
+  @Patch('users/{:id}')
+  public updateUser(@Param('id') id?: number) {
+    return {
+      msg: 'You sent a patch request to this endpoint user ',
+    };
   }
 
   @Delete('users')
   public deleteUser(@Param('id') id?: string) {
-    return 'You sent a delete request to this endpoint user ';
+    return {
+      msg: 'You sent a delete request to this endpoint user ',
+    };
   }
 }
